@@ -1,25 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect, useReducer, createContext } from 'react'
 import './App.css';
+import TextCreator from './components/TextCreator';
+import { StateProvider } from './State'
+import BoxA from './components/BoxA.js'
+import BoxB from './components/BoxB.js'
+
+// Defines how to update the state based on actions
+const reducer = (state, action) => {
+  switch (action.type) {
+      case 'add':
+          return { ...state, points: state.points + 1 }
+      default:
+          return state;
+  }
+};
 
 function App() {
+  const initialState = {
+    points: 0
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StateProvider initialState={initialState} reducer={reducer}>
+      App
+      <div className="App">
+        APP
+        <BoxA />
+        <BoxB />
+        <TextCreator/>
+      </div>
+    </StateProvider>
+
   );
 }
 
